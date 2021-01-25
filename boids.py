@@ -20,16 +20,14 @@ class Boid:
         #define xs ys xvs yvs
         #define global properties
         
-    def _fly_towards_the_middle(self,pos,vel):
-        xvs[i] = xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
-        yvs[i] = yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
-        return xvs[i],yvs[i]
+    def _fly_towards_the_middle(self,pos,vel,pos_adj):
+        return pos+(pos_adj-pos)*0.01/len(xs) #ToDo: add len(xs) to properties
     
     def update_boids(self):
         for i in range(len(xs)):
             for j in range(len(xs)): 
-                xvs[i] = _fly_towards_the_middle(xvs[i],xs[i])
-                yvs[i] = _fly_towards_the_middle(yvs[i],ys[i])
+                xvs[i] = _fly_towards_the_middle(xvs[i],xs[i],xs[j])
+                yvs[i] = _fly_towards_the_middle(yvs[i],ys[i],ys[j])
                     
 def update_boids(boids):
     xs,ys,xvs,yvs=boids
