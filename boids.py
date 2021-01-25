@@ -23,11 +23,23 @@ class Boid:
     def _fly_towards_the_middle(self,pos,vel,pos_adj):
         return pos+(pos_adj-pos)*0.01/len(xs) #ToDo: add len(xs) to properties
     
+    def _fly_away_from_nearby_boids(self,pos,vel,pos_adj):
+        return vel+(pos-pos_adj)
+    
     def update_boids(self):
         for i in range(len(xs)):
             for j in range(len(xs)): 
                 xvs[i] = _fly_towards_the_middle(xvs[i],xs[i],xs[j])
                 yvs[i] = _fly_towards_the_middle(yvs[i],ys[i],ys[j])
+                
+        for i in range(len(xs)):
+            for j in range(len(xs)): 
+                if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 100: #toDo: add condition check as a hidden method
+                    xvs[i] = _fly_away_from_nearby_boids(xs[i],xvs[i],xs[j])
+                    yvs[i] = _fly_away_from_nearby_boids(ys[i],yvs[i],ys[j])
+                    
+                    
+                    
                     
 def update_boids(boids):
     xs,ys,xvs,yvs=boids
