@@ -15,15 +15,31 @@ boid_x_velocities=[random.uniform(0,10.0) for x in range(50)]
 boid_y_velocities=[random.uniform(-20.0,20.0) for x in range(50)]
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
+class Boid:
+    def __init__(self,xs,ys,xvs,yvs):
+        #define xs ys xvs yvs
+        #define global properties
+        
+    def _fly_towards_the_middle(self,pos,vel):
+        xvs[i] = xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
+        yvs[i] = yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
+        return xvs[i],yvs[i]
+    
+    def update_boids(self):
+        for i in range(len(xs)):
+            for j in range(len(xs)): 
+                xvs[i] = _fly_towards_the_middle(xvs[i],xs[i])
+                yvs[i] = _fly_towards_the_middle(yvs[i],ys[i])
+                    
 def update_boids(boids):
     xs,ys,xvs,yvs=boids
     # Fly towards the middle
     for i in range(len(xs)):
         for j in range(len(xs)):
-            xvs[i]=xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
+            
     for i in range(len(xs)):
         for j in range(len(xs)):
-            yvs[i]=yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
+            
     # Fly away from nearby boids
     for i in range(len(xs)):
         for j in range(len(xs)):
