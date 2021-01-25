@@ -19,24 +19,51 @@ class Boid:
     def __init__(self,xs,ys,xvs,yvs):
         #define xs ys xvs yvs
         #define global properties
+        self.num_boids = len(xs)
         
+    @property
+    def LIMIT(self):
+        return 100
+    @property
+    def VEL_LIMIT(self):
+        return 0.125
+    
     def _fly_towards_the_middle(self,pos,vel,pos_adj):
-        return pos+(pos_adj-pos)*0.01/len(xs) #ToDo: add len(xs) to properties
+        return pos+(pos_adj-pos)/self.num_boids/self.LIMIT #ToDo: add len(xs) to properties
     
     def _fly_away_from_nearby_boids(self,pos,vel,pos_adj):
-        return vel+(pos-pos_adj)
+        return vel+(pos-pos_adj)*self.VEL_LIMIT/self.num_boids
+    
+    def _match_speed(self, vel,vel_adj):
+        return vel+(vel_adj-vel)*
+    def _must_fly_away_or_match_speed(self,x1,x2,y1,y2, choice):
+        if choice=='fly_away':
+            L = self.LIMIT**2
+        if choice=='match_speed':
+            L = self.LIMIT**2
+        else:
+            raise ValueError
+        return (x1-x2)**2 + (y1-y2)**2 < L
     
     def update_boids(self):
         for i in range(len(xs)):
             for j in range(len(xs)): 
-                xvs[i] = _fly_towards_the_middle(xvs[i],xs[i],xs[j])
-                yvs[i] = _fly_towards_the_middle(yvs[i],ys[i],ys[j])
+                xvs[i] = self._fly_towards_the_middle(xvs[i],xs[i],xs[j])
+                yvs[i] = self._fly_towards_the_middle(yvs[i],ys[i],ys[j])
                 
         for i in range(len(xs)):
             for j in range(len(xs)): 
-                if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 100: #toDo: add condition check as a hidden method
-                    xvs[i] = _fly_away_from_nearby_boids(xs[i],xvs[i],xs[j])
-                    yvs[i] = _fly_away_from_nearby_boids(ys[i],yvs[i],ys[j])
+                if self.must_fly_away_or_match_speed(x[i],x[j],y[i],y[j],'fly_away'): #toDo: add condition check as a hidden method
+                    xvs[i] = self._fly_away_from_nearby_boids(xs[i],xvs[i],xs[j])
+                    yvs[i] = self._fly_away_from_nearby_boids(ys[i],yvs[i],ys[j])
+
+        for i in range(len(xs)):
+            for j in range(len(xs)): 
+                if self._must_fly_away_or_match_speed('match_speed') :
+                    xvs[i] = self._match_speed(xvs[i],xvs[j])
+                    yvs[i] = self._match_speed(yvs[i],yvs[j])
+                    
+        
                     
                     
                     
