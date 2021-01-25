@@ -36,6 +36,9 @@ class Boid:
     
     def _match_speed(self, vel,vel_adj):
         return vel+(vel_adj-vel)*
+    
+    def _move(pos,vel):
+        return pos+vel
     def _must_fly_away_or_match_speed(self,x1,x2,y1,y2, choice):
         if choice=='fly_away':
             L = self.LIMIT**2
@@ -46,28 +49,30 @@ class Boid:
         return (x1-x2)**2 + (y1-y2)**2 < L
     
     def update_boids(self):
-        for i in range(len(xs)):
-            for j in range(len(xs)): 
+        for i in range(self.num_boids):
+            for j in range(self.num_boids): 
                 xvs[i] = self._fly_towards_the_middle(xvs[i],xs[i],xs[j])
                 yvs[i] = self._fly_towards_the_middle(yvs[i],ys[i],ys[j])
                 
-        for i in range(len(xs)):
-            for j in range(len(xs)): 
+        for i in range(self.num_boids):
+            for j in range(self.num_boids): 
                 if self.must_fly_away_or_match_speed(x[i],x[j],y[i],y[j],'fly_away'): #toDo: add condition check as a hidden method
                     xvs[i] = self._fly_away_from_nearby_boids(xs[i],xvs[i],xs[j])
                     yvs[i] = self._fly_away_from_nearby_boids(ys[i],yvs[i],ys[j])
 
-        for i in range(len(xs)):
-            for j in range(len(xs)): 
+        for i in range(self.num_boids):
+            for j in range(self.num_boids): 
                 if self._must_fly_away_or_match_speed('match_speed') :
                     xvs[i] = self._match_speed(xvs[i],xvs[j])
                     yvs[i] = self._match_speed(yvs[i],yvs[j])
                     
         
+        for i in range(self.num_boids):
+            xs[i] = self._move(xs[i]+xvs[i])
+            ys[i] = self._move(ys[i]+yvs[i])
                     
                     
-                    
-                    
+'''                    
 def update_boids(boids):
     xs,ys,xvs,yvs=boids
     # Fly towards the middle
@@ -92,7 +97,7 @@ def update_boids(boids):
     # Move according to velocities
     for i in range(len(xs)):
         xs[i]=xs[i]+xvs[i]
-        ys[i]=ys[i]+yvs[i]
+        ys[i]=ys[i]+yvs[i]'''
 
 
 figure=plt.figure()
